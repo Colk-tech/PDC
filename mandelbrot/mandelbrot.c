@@ -20,11 +20,12 @@
  * the License, or (at your option) any later version.
  */
 
-#include <GL/gl.h>
-#include <GL/glut.h>
+#include <OpenGL/gl.h>
+#include <GLUT/glut.h>
 
 #include <pthread.h>
 
+#include <stdlib.h>
 #include <stdio.h>
 
 // 自分のPCの画面サイズに合わせて調整して良い
