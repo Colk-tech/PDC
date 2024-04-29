@@ -5,6 +5,10 @@
 #include <pthread.h>
 #include <stdio.h>
 
+#if defined(__APPLE__)
+#define PTHREAD_MUTEX_RECURSIVE_NP PTHREAD_MUTEX_RECURSIVE
+#endif
+
 #define RATE 0.05
 
 void *thread_A(void *x), *thread_B(void *x);
