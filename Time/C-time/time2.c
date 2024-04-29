@@ -7,11 +7,10 @@
 
 #define NUM 10000  // NUM以下の素数を求める
 
-int main(void)
-{
+int main(void) {
     unsigned i, j, k;
     unsigned prime[NUM];
-    unsigned sq_num = (int)sqrt((double)NUM);
+    unsigned sq_num = (int) sqrt((double) NUM);
 
     struct timespec start, end;
     double elapsed;
@@ -22,7 +21,7 @@ int main(void)
 
     // 全ての数を素数候補にする
     for (i = 0; i < NUM; i++)
-      prime[i] = 1;
+        prime[i] = 1;
 
     /* 開始時間の計測 */
     clock_gettime(CLOCK_MONOTONIC, &start);
@@ -31,12 +30,12 @@ int main(void)
     //エラトステネスの篩
     prime[0] = 0;    // 1は素数ではない
     for (i = 1; i < sq_num; i++) { // 2以上 sqrt(NUM) について 
-      if (prime[i] == 1){          // i+1 が素数なら
-        j=i+1; //本来の数値
-        for (k=j+j; k<=NUM; k+=j){
-          prime[k-1] = 0;  // 素数の倍数は素数ではない
+        if (prime[i] == 1) {          // i+1 が素数なら
+            j = i + 1; //本来の数値
+            for (k = j + j; k <= NUM; k += j) {
+                prime[k - 1] = 0;  // 素数の倍数は素数ではない
+            }
         }
-      }
     }
 
     /* 終了時間の計測 */
@@ -50,8 +49,8 @@ int main(void)
     putchar('\n');
 
     /* 経過時間の計算 */
-    elapsed  = (double)(end.tv_sec  - start.tv_sec);
-    elapsed += (double)(end.tv_nsec - start.tv_nsec) * 1e-9;
+    elapsed = (double) (end.tv_sec - start.tv_sec);
+    elapsed += (double) (end.tv_nsec - start.tv_nsec) * 1e-9;
 
     printf("total processing time: %lf sec\n", elapsed);
     return EXIT_SUCCESS;
