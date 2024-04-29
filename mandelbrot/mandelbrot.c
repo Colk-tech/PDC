@@ -20,13 +20,26 @@
  * the License, or (at your option) any later version.
  */
 
+#if defined(__APPLE__)
+
 #include <OpenGL/gl.h>
-#include <GLUT/glut.h>
+#include <GLUT/glut.h> // 変更されたインクルード
 
 #include <pthread.h>
 
-#include <stdlib.h>
+#include <stdlib.h> // Include for exit and EXIT_SUCCESS
 #include <stdio.h>
+
+#else
+
+#include <GL/gl.h>
+#include <GL/glut.h>
+
+#include <pthread.h>
+
+#include <stdio.h>
+
+#endif
 
 // 自分のPCの画面サイズに合わせて調整して良い
 #define IMAGE_X 1024
