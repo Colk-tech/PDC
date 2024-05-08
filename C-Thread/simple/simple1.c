@@ -4,7 +4,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <pthread.h>
 
 void *func1(void *x);
@@ -29,6 +28,8 @@ int main(void) {
 void *func1(void *x) { /* スレッド1の処理 */
     int i;
     int p;
+
+    // int 型のポインタに変換 → * で実体にアクセス
     p = *((int *) x);
     for (i = 0; i < 3; i++) {
         printf("func1( %d ): %d \n", p, i);
@@ -39,6 +40,8 @@ void *func1(void *x) { /* スレッド1の処理 */
 void *func2(void *x) { /* スレッド2の処理 */
     int i;
     int p;
+
+    // int 型のポインタに変換 → * で実体にアクセス
     p = *((int *) x);
     for (i = 0; i < 3; i++) {
         printf("func2( %d ): %d \n", p, i);
