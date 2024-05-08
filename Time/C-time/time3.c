@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <time.h>
-#include <sys/time.h>
 #include <math.h> // sqrt を使うんで
 
 #define NUM 10000  // NUM以下の素数を求める
