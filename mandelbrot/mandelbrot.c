@@ -48,7 +48,7 @@
 #define MAX_ITERATION 10000
 
 // スレッド数
-#define NUM_THREADS 8
+#define MAX_THREADS IMAGE_Y
 
 /*
  *defining a RGB struct to color the pixel
@@ -73,7 +73,7 @@ struct thread_data {
 };
 
 // その他 グローバル変数
-pthread_t mandelthreads[NUM_THREADS];
+pthread_t mandelthreads[MAX_THREADS];
 
 /*
  * 収束にかかった回数に応じて、ピクセルの色を決める関数
@@ -185,7 +185,7 @@ void timer(int value) {
 
 
 void quit() {
-    for (int i = 0; i < NUM_THREADS; i++) {
+    for (int i = 0; i < MAX_THREADS; i++) {
         pthread_cancel(mandelthreads[i]);
     }
     exit(0);
@@ -253,8 +253,8 @@ void GLInit() {
 
 // メイン関数でスレッドの作成部分を変更
 int main(int argc, char *argv[]) {
-    struct thread_data thread_data_array[NUM_THREADS];
-    const int LINES_PER_THREAD = IMAGE_Y / NUM_THREADS;
+    struct thread_data thread_data_array[MAX_THREADS];
+    const int LINES_PER_THREAD = IMAGE_Y / MAX_THREADS;
 
     glutInit(&argc, argv);
 
@@ -264,12 +264,12 @@ int main(int argc, char *argv[]) {
     glutIdleFunc(idle);
     // glutTimerFunc(50, timer, 0);
 
-    for (int t = 0; t < NUM_THREADS; t++) {
+    for (int t = 0; t < MAX_THREADS; t++) {
         thread_data_array[t].start_y = t * LINES_PER_THREAD;
         thread_data_array[t].end_y = (t + 1) * LINES_PER_THREAD;
 
         // 最後のスレッドは残り全部を処理
-        if (t == NUM_THREADS - 1)
+        if (t == MAX_THREADS - 1)
             thread_data_array[t].end_y = IMAGE_Y;
 
         int rc = pthread_create(&mandelthreads[t], NULL, mandelbrotset, (void *) &thread_data_array[t]);
