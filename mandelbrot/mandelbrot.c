@@ -28,6 +28,7 @@
 
 // それ以外のシステムの場合は以下をインクルード
 #else
+
 #include <GL/gl.h>
 #include <GL/glut.h>
 
@@ -36,8 +37,7 @@
 // 共通のインクルード
 #include <pthread.h>
 
-// EXIT_SUCCESS のためにインクルード
-#include <stdlib.h>
+#include <stdlib.h> // EXIT_SUCCESS のためにインクルード
 #include <stdio.h>
 
 // 自分のPCの画面サイズに合わせて調整して良い
