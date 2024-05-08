@@ -33,6 +33,7 @@
 
 #endif
 
+// 共通のインクルード
 #include <pthread.h>
 
 // EXIT_SUCCESS のためにインクルード
