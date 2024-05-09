@@ -75,6 +75,9 @@ struct thread_data {
 // その他 グローバル変数
 pthread_t mandelthreads[MAX_THREADS];
 
+struct timespec start, end;
+int is_first = 1;
+
 /*
  * 収束にかかった回数に応じて、ピクセルの色を決める関数
  */
@@ -148,16 +151,23 @@ void *mandelbrotset(void *threadarg) {
     * xx, yy はwindow上の座標。
     * r0,i0 はそれを上記の複素平面にマップした座標。
     */
-    float xx, yy, r0, i0;
+    int xx, yy;
+    float r0, i0;
     int iteration;
     long loc;
+
+    if (is_first) {
+        clock_gettime(CLOCK_MONOTONIC, &start);
+        is_first = 0;
+        printf("start_ctime = sec:%ld nsec:%ld\n", start.tv_sec, start.tv_nsec);
+    }
 
     //画面上の座標に対して
     for (yy = my_data->start_y; yy < my_data->end_y; yy++) {
         for (xx = 0; xx < IMAGE_X; xx++) {
             // 複素平面上の座標に変換
-            i0 = 2.1 * yy / IMAGE_Y - 1.0;
-            r0 = 3.6 * xx / IMAGE_X - 2.5;
+            i0 = 2.1f * (float) yy / IMAGE_Y - 1.0;
+            r0 = 3.6f * (float) xx / IMAGE_X - 2.5;
 
             // 収束にかかる回数を計算
             iteration = mandel_sub(r0, i0);
@@ -167,6 +177,14 @@ void *mandelbrotset(void *threadarg) {
             pixels[loc] = setMyColor(iteration);
         }
     }
+
+    clock_gettime(CLOCK_MONOTONIC, &end);
+
+    double elapsed = (double) (end.tv_sec - start.tv_sec);
+    elapsed += (double) (end.tv_nsec - start.tv_nsec) * 1e-9;
+
+    printf("elapsed: %lf sec\n", elapsed);
+
     pthread_exit(NULL);
 }
 
